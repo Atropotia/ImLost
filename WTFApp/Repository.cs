@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace WTFApp
 {
-    internal class FileETC
+    class Repository
     {
+
         //Чтение из файла данных
         private static void ReadData()
         {
@@ -19,43 +20,6 @@ namespace WTFApp
                 }
 
             }
-        }
-
-        //Редактирование записи о сотруднике
-        public static void Edit()
-        {
-            Console.Write("Введите ID сотрудника для редактирования записи: ");
-            int ID;
-            try
-            {
-                int cid = int.Parse(Console.ReadLine());
-                Console.Write($"Редактируемые данные о работнике: {worker[cid].ID} ");
-                ID = cid;
-            }
-            catch
-            {
-                Console.Write($"Введите верный ID");
-                Console.ReadKey();
-                Console.Clear();
-                return;
-            }
-
-            string line = $"{worker.Count}#{DateTime.Now}#";
-            Console.Write("Введите фамилию, имя и отчество сотрудника: ");
-            line += Console.ReadLine() + "#";
-            Console.Write("Введите возраст сотрудника: ");
-            line += Console.ReadLine() + "#";
-            Console.Write("Введите рост сотрудника: ");
-            line += Console.ReadLine() + "#";
-            Console.Write("Введите дату рождения сотрудника: ");
-            line += Console.ReadLine() + "#";
-            Console.Write("Введите место рождения сотрудника: ");
-            line += Console.ReadLine();
-            worker.Add(new Worker(line));
-
-            Console.WriteLine("Готово. Нажмите любую кнопку чтобы продолжить");
-            Console.ReadKey();
-            Console.Clear();
         }
 
         //Просмотр записей в определённом промежутке дат
@@ -151,7 +115,7 @@ namespace WTFApp
             for (int i = counter.Length - 1; i >= 0; i--)
             {
                 int found = list[i].IndexOf(" ");
-                Console.WriteLine(list[i].Substring(0, found) + "   " + counter[i] + "  " + list[i].Substring(found + 1));
+                Console.WriteLine(list[i][..found] + "   " + counter[i] + "  " + list[i][(found + 1)..]);
             }
 
             Console.WriteLine("Готово. Нажмите любую кнопку чтобы продолжить");
@@ -181,6 +145,42 @@ namespace WTFApp
             foreach (Worker note in notesForDelete)
             {
                 worker.Remove(note);
+            }
+        }
+
+        //Добавление сотрудника
+        public static void AddLine()
+        {
+            string line = $"{worker.Count}#{DateTime.Now}#";
+            Console.Write("Введите фамилию, имя и отчество сотрудника: ");
+            line += Console.ReadLine() + "#";
+            Console.Write("Введите возраст сотрудника: ");
+            line += Console.ReadLine() + "#";
+            Console.Write("Введите рост сотрудника: ");
+            line += Console.ReadLine() + "#";
+            Console.Write("Введите дату рождения сотрудника: ");
+            line += Console.ReadLine() + "#";
+            Console.Write("Введите место рождения сотрудника: ");
+            line += Console.ReadLine();
+            worker.Add(new Worker(line));
+
+            Console.WriteLine("Готово. Нажмите любую кнопку чтобы продолжить");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        //Выход из программы
+        static private void Exit()
+        {
+            Console.WriteLine("Для сохранения и выхода нажмите ENTER, для выхода без созранения введите N и нажмите ENTER:");
+            if (Console.ReadLine() == "N")
+            {
+                Console.WriteLine("Выход без сохранения");
+            }
+            else
+            {
+                SaveToFile();
+                Console.WriteLine("Данные были сохранены");
             }
         }
     }
