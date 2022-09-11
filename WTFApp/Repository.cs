@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace WTFApp
 {
-    class Repository
-    {
+    private interface index;
+    private Worker[] worker;
+    private string path;
 
+    class Repository (string path)
+    {
+        this.path = Path;
+        index = 0;
         //Чтение из файла данных
         private static void ReadData()
         {
